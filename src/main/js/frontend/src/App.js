@@ -14,10 +14,12 @@ class App extends Component {
         mode: 'cors',
         cache: 'default',
         body:JSON.stringify({
-        		perPage:20,
-        		page:0,
-        		object:{},
-        		sort:{orders:[]}
+        		grid:{
+	        		perPage:20,
+	        		page:0,
+	        		object:{},
+	        		sort:{orders:[]}
+	        		}
         		}
         	)
         }));

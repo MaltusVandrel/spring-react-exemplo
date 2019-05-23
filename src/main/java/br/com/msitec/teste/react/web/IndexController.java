@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.msitec.teste.react.ajax.Grid;
 import br.com.msitec.teste.react.dao.TarefaDAO;
@@ -26,7 +27,9 @@ public class IndexController {
    
     
     @PostMapping(value="/grid",produces = "application/json")
+    @ResponseBody
     public Page<Tarefa> grid(@RequestBody Grid<Tarefa> grid) {
+    	
     	Example<Tarefa> example = Example.of(grid.getObject(),ExampleMatcher.matchingAny()
     			.withIgnoreNullValues()
     			.withMatcher("titulo", ExampleMatcher.GenericPropertyMatchers.startsWith())

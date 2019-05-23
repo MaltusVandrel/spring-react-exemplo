@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = 
-		{"br.com.msitec.teste.react.web","br.com.msitec.teste.react.serializer","br.com.msitec.teste.react.configuration"})
+		{"br.com.msitec.teste.react.web","br.com.msitec.teste.react.serializer"})
 public class Application {
 
     public static void main(String[] args) {
