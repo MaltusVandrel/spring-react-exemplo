@@ -2,6 +2,10 @@ package br.com.msitec.teste.react.ajax;
 
 import org.springframework.data.domain.Sort;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import br.com.msitec.teste.react.serializer.SortJsonDeserializer;
+
 public  class Grid<T> {
 
 	private T object;
@@ -29,6 +33,7 @@ public  class Grid<T> {
 	public Sort getSort() {
 		return sort;
 	}
+	@JsonDeserialize(using=SortJsonDeserializer.class)
 	public void setSort(Sort sort) {
 		this.sort = sort;
 	}

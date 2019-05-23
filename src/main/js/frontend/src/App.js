@@ -7,16 +7,20 @@ class App extends Component {
     message: ""
   };
   
-  let headers=new Headers();
-  headers.append("Content-Type", "application/json");
-  let config={ method: 'post',
-      headers: headers,
-      mode: 'cors',
-      cache: 'default',
-      body:{perPage:20,page:0,object:{}sort:{}}}
 
   async componentDidMount() {
-    const response = await fetch(new Request("http://localhost:8080/grid",config));
+    const response = await fetch(new Request("http://localhost:8080/grid",{ method: 'POST',
+        headers: {'Content-Type':"application/json"},
+        mode: 'cors',
+        cache: 'default',
+        body:JSON.stringify({
+        		perPage:20,
+        		page:0,
+        		object:{},
+        		sort:{orders:[]}
+        		}
+        	)
+        }));
     const message = await response.text();
     this.setState({ message });
   }
