@@ -35,8 +35,9 @@ public class IndexController {
 				.withIgnoreNullValues()
     			.withMatcher("titulo", ExampleMatcher.GenericPropertyMatchers.startsWith())
     			.withMatcher("descricao", ExampleMatcher.GenericPropertyMatchers.contains()));
+    	PageRequest pageRequest = PageRequest.of(grid.getPage(),grid.getPerPage(),grid.getSort());
     	
-    	return tarefaDAO.findAll(example, PageRequest.of(grid.getPage(),grid.getPerPage(),grid.getSort()));
+    	return tarefaDAO.findAll(example, pageRequest);
     }
 
 }

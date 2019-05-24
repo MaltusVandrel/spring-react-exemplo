@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @JsonComponent
 public class SortJsonDeserializer  extends JsonDeserializer<Sort> {
@@ -22,10 +23,9 @@ public class SortJsonDeserializer  extends JsonDeserializer<Sort> {
 	@Override
 	public Sort deserialize(JsonParser jp, DeserializationContext ctxt)
 	        throws IOException, JsonProcessingException {
-		System.out.println("AQUI!!!");
-	    ArrayNode node = jp.getCodec().readTree(jp);
+	    ObjectNode node = jp.getCodec().readTree(jp);
 	    List<Order> orders = new ArrayList<Order>();
-	    for(JsonNode obj : node){
+	    for(JsonNode obj : node.get("orders")){
 	    	orders.add(new Order(Direction.valueOf(obj.get("direction").asText()), obj.get("property").asText()));
 	    }
 	    Sort sort = Sort.by(orders);

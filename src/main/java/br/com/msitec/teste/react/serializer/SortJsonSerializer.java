@@ -19,18 +19,13 @@ public class SortJsonSerializer extends JsonSerializer<Sort> {
     @Override
     public void serialize(Sort value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartArray();
-
-        System.out.println("value:"+value);
-        
         value.iterator().forEachRemaining(v -> {
-        	System.out.println("   v:"+v);
             try {
                 gen.writeObject(v);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-
         gen.writeEndArray();
     }
    
