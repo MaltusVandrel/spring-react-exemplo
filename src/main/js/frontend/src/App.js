@@ -17,7 +17,7 @@ class App extends Component {
         		grid:{
 	        		perPage:20,
 	        		page:0,
-	        		object:{},
+	        		object:{titulo:""},
 	        		sort:{orders:[]}
 	        		}
         		}

@@ -29,9 +29,10 @@ public class IndexController {
     @PostMapping(value="/grid",produces = "application/json")
     @ResponseBody
     public Page<Tarefa> grid(@RequestBody Grid<Tarefa> grid) {
-    	
-    	Example<Tarefa> example = Example.of(grid.getObject(),ExampleMatcher.matchingAny()
-    			.withIgnoreNullValues()
+    	if(grid.getObject()==null)grid.setObject(new Tarefa());
+    	Example<Tarefa> example = Example.of(grid.getObject(),ExampleMatcher
+				.matching()
+				.withIgnoreNullValues()
     			.withMatcher("titulo", ExampleMatcher.GenericPropertyMatchers.startsWith())
     			.withMatcher("descricao", ExampleMatcher.GenericPropertyMatchers.contains()));
     	
