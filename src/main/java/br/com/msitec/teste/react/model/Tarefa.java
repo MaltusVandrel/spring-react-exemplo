@@ -33,6 +33,22 @@ public class Tarefa {
 	@Column(name="situacao", nullable=false)
 	private SituacaoTarefa situacao=SituacaoTarefa.ABERTA;
 
+	public Tarefa() {}
+	
+	public Tarefa(Boolean empty) {
+		if(empty!=null && Boolean.TRUE == empty) {
+			this.id=null;
+			this.titulo=null;
+			this.descricao=null;
+			this.abertura=null;
+			this.fechamento=null;
+			this.situacao=null;
+		}
+	}
+	public Tarefa(String titulo, String descricao) {
+		this.titulo=titulo;
+		this.descricao=descricao;
+	}
 	public Long getId() {
 		return id;
 	}

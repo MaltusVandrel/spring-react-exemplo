@@ -19,22 +19,14 @@ constructor(props) {
  }  
  handleClick(e) {
 	 e.preventDefault();
-    
-    console.log('The link was clicked.');
     this.props.parent.order(this.props.property);
+    let icon = this.iconHasent;
     if(this.props.parent.has(this.props.property,'ASC')){
-    	this.setState({
-    		 icon :	this.iconHasAsc
-        });
+    	icon = this.iconHasAsc;
     }else if(this.props.parent.has(this.props.property,'DESC')){
-    	this.setState({
-    		 icon :	this.iconHasDesc
-        });
-    }else{
-    	this.setState({
-    		 icon :	this.iconHasent
-        });
-    }   
+   		 icon =	this.iconHasDesc;
+    }
+	this.setState({icon:icon});
  }
  render() {
    
@@ -69,14 +61,12 @@ class TableBody extends Component {
 		let content = "";
 		if(this.props.rows){
 		for(let i=0;i<this.props.rows.length;i++){
-//			for(data of Object.keys(row)){
-//				content+= <Cell value={data} />
-//			}
+			for(let data of Object.keys(this.props.rows[i])){
+				content+= <Cell value={data} />
+			}
 	    }
-//		content+=;
 		}
 	    return 	(<tr>{content}</tr>);
-	    
 	}
 }
 class App extends Component {
@@ -124,13 +114,10 @@ class App extends Component {
 			}
 		}
 		this.grid.sort.orders.push({property:property,direction:'ASC'});
-		
 		this.getGrid(true);
-		
 	};
 
 	has=function(property,direction){
-		console.log(JSON.stringify("One1"));
 		if(this){
 			for(let x in this.grid.sort.orders){
 				if(this.grid.sort.orders[x].property===property){
