@@ -24,30 +24,22 @@ public class Tarefa {
 	
 	@Column(name="abertura", nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date abertura=new Date();
+	private Date abertura;
 	
 	@Column(name="fechamento")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechamento;
 	
 	@Column(name="situacao", nullable=false)
-	private SituacaoTarefa situacao=SituacaoTarefa.ABERTA;
+	private SituacaoTarefa situacao;
 
 	public Tarefa() {}
 	
-	public Tarefa(Boolean empty) {
-		if(empty!=null && Boolean.TRUE == empty) {
-			this.id=null;
-			this.titulo=null;
-			this.descricao=null;
-			this.abertura=null;
-			this.fechamento=null;
-			this.situacao=null;
-		}
-	}
 	public Tarefa(String titulo, String descricao) {
 		this.titulo=titulo;
 		this.descricao=descricao;
+		this.abertura=new Date();
+		this.situacao=SituacaoTarefa.ABERTA;
 	}
 	public Long getId() {
 		return id;

@@ -56,48 +56,74 @@ class Cell extends React.Component {
 class TableBody extends Component {
 	constructor(props) {
 		super(props);
-	}	
-	render() {
-		let content = "";
+		
+	}
+	createRows = () =>{
+		let row=[];
 		if(this.props.rows){
-		for(let i=0;i<this.props.rows.length;i++){
-			for(let data of Object.keys(this.props.rows[i])){
-				content+= <Cell value={data} />
+			for(let i=0;i<this.props.rows.length;i++){
+				row.push(<tr>
+				<Cell value={this.props.rows[i].id} />  
+				<Cell value={this.props.rows[i].titulo} />  
+				<Cell value={this.props.rows[i].descricao} />  
+				<Cell value={this.props.rows[i].abertura} />  
+				<Cell value={this.props.rows[i].fechamento} />  
+				<Cell value={this.props.rows[i].situacao} />  
+				</tr>)				
 			}
-	    }
 		}
-	    return 	(<tr>{content}</tr>);
+		return row;
+	}
+	render() {
+		
+	    return 	(this.createRows());
 	}
 }
 class App extends Component {
   rows = [];
-  page = {}
-	  
-  grid={
-	perPage:20,
-	page:0,
-	object:{titulo:""},
-	sort:{orders:[]}
+  constructor(props){
+	  super(props);
+	  this.grid={
+			perPage:20,
+			page:0,
+			object:{titulo:""},
+			sort:{orders:[]}
+	  }
+	  this.page={}
+	  this.state={
+			  grid:{
+				perPage:20,
+				page:0,
+				object:{titulo:""},
+				sort:{orders:[]}
+			  },
+			  page:{}
+	  } 
+	  this.getGrid();
   }
-     async getGrid (doKeepPage){
+   getGrid (doKeepPage){
 		if(!(doKeepPage)){
 			this.grid.object.page=0;
 		}
+		this.grid.object.page=0;
 		if(this.grid.object.id<0||this.grid.object.id=="")this.grid.object.id=undefined;
 		if(this.grid.object.titulo==="")this.grid.object.titulo=undefined;
 		if(this.grid.object.descricao==="")this.grid.object.descricao=undefined;
 		if(this.grid.object.abertura==="")this.grid.object.abertura=undefined;
 		if(this.grid.object.fechamento=="")this.grid.object.fechamento=undefined;
 		if(this.grid.object.situacao=="")this.grid.object.situacao=undefined;
-		
-		const response = await fetch(new Request("http://localhost:8080/grid",{ method: 'POST',
-	        headers: {'Content-Type':"application/json"},
-	        mode: 'cors',
-	        cache: 'default',
-	        body:JSON.stringify(this.grid)}));
+		fetch(new Request("http://localhost:8080/grid",{ method: 'POST',
+        headers: {'Content-Type':"application/json"},
+        mode: 'cors',
+        cache: 'default',
+        body:JSON.stringify(this.grid)})).then((response)=>{
+        	return response.json();
+        }).then((json)=>{
+           	this.page = json;
+        	console.log(this.page);
+        	this.setState({grid:this.grid,page:this.page});
+        });
 	    
-	    
-	    this.page = await response.json();
 	}
 	order=function(property){
 		for(let x in this.grid.sort.orders){
@@ -151,9 +177,10 @@ class App extends Component {
 		this.getGrid(true);		
 	}
   
-  
+	
   
   render() {
+	
     return (
     		<table>
     			<thead>
@@ -175,7 +202,7 @@ class App extends Component {
     				</tr>
     			</thead>
     			<tbody>
-    				<TableBody rows={this.grid.content} />
+    				<TableBody rows={this.state.page.content} />
     			</tbody>
     			<tfoot>
     				<tr>
@@ -183,7 +210,7 @@ class App extends Component {
     						<span>
     							<span ng-click="first()" class="material-icons" >first_page</span>
     							<span ng-click="previous()" class="material-icons">chevron_left</span>
-    							<span>{this.page.page+1} de {this.page.totalPages}</span>
+    							<span>{this.page.number+1} de {this.page.totalPages}</span>
     							<span ng-click="next()" class="material-icons">chevron_right</span>
     							<span ng-click="last()" class="material-icons">last_page</span>
     						</span>

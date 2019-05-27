@@ -20,7 +20,6 @@ import br.com.msitec.teste.react.model.Tarefa;
 
 @CrossOrigin(origins = "*")
 @Controller
-@RequestMapping("/")
 public class IndexController {
 
 	@Inject private TarefaDAO tarefaDAO; 
@@ -28,10 +27,8 @@ public class IndexController {
     @PostMapping(value="/grid",produces = "application/json")
     @ResponseBody
     public Page<Tarefa> grid(@RequestBody Grid<Tarefa> grid) {
-    	if(grid.getObject()==null)grid.setObject(new Tarefa(true));
     	Example<Tarefa> example = Example.of(grid.getObject(),ExampleMatcher
 				.matching()
-				.withIgnoreNullValues()
     			.withMatcher("titulo", ExampleMatcher.GenericPropertyMatchers.startsWith())
     			.withMatcher("descricao", ExampleMatcher.GenericPropertyMatchers.contains()));
     	PageRequest pageRequest = PageRequest.of(grid.getPage(),grid.getPerPage(),grid.getSort());
