@@ -28,6 +28,7 @@ constructor(props) {
     }
 	this.setState({icon:icon});
  }
+ 
  render() {
    
 	let has = this.props.parent.has;
@@ -84,6 +85,14 @@ class App extends Component {
   rows = [];
   constructor(props){
 	  super(props);
+	  this.properties = [
+		  {property:'id',label:'ID'},
+		  {property:'titulo',label:'Titulo'},
+		  {property:'descricao',label:'Descricao'},
+		  {property:'abertura',label:'Abertura'},
+		  {property:'fechamento',label:'Fechamento'},
+		  {property:'situacao',label:'Situacao'},
+	  ]
 	  this.grid={
 			perPage:20,
 			page:0,
@@ -194,12 +203,7 @@ class App extends Component {
     					<th><input type='text' placeholder='Situacao'/></th>
     				</tr>
     				<tr>
-	    				<TableHeader parent={this} property={"id"} header={"ID"} />
-						<TableHeader parent={this} property={"titulo"} header={"Titulo"} />
-						<TableHeader parent={this} property={"descricao"} header={"Descricao"} />
-						<TableHeader parent={this} property={"abertura"} header={"Abertura"} />
-						<TableHeader parent={this} property={"fechamento"} header={"Fechamento"} />
-						<TableHeader parent={this} property={"situacao"} header={"Situacao"} />		
+	    				<TableHeader parent={this} />
     				</tr>
     			</thead>
     			<tbody>
