@@ -58,21 +58,22 @@ class TableBody extends Component {
 		super(props);
 		
 	}
+	createCells = (entry,keys) =>{
+		let content =[];
+		for(let key of keys){
+			content.push(<Cell value={entry[key]} />);
+		}				
+		return content;	
+	}
 	createRows = () =>{
-		let row=[];
+		let rows=[];
 		if(this.props.rows){
-			for(let i=0;i<this.props.rows.length;i++){
-				row.push(<tr>
-				<Cell value={this.props.rows[i].id} />  
-				<Cell value={this.props.rows[i].titulo} />  
-				<Cell value={this.props.rows[i].descricao} />  
-				<Cell value={this.props.rows[i].abertura} />  
-				<Cell value={this.props.rows[i].fechamento} />  
-				<Cell value={this.props.rows[i].situacao} />  
-				</tr>)				
+			for(let entry of this.props.rows){
+				let keys = Object.keys(entry);
+				rows.push(<tr>{this.createCells(entry,keys)}</tr>);
 			}
 		}
-		return row;
+		return rows;
 	}
 	render() {
 		
