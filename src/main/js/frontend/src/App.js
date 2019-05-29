@@ -13,31 +13,38 @@ iconHasent = <span class="material-icons">unfold_more</span>;
 constructor(props) {
 	super(props);
 	 this.handleClick = this.handleClick.bind(this);
+	 this.createHeaders = this.createHeaders.bind(this);
 	 this.state = {
-      icon : this.iconHasent
+      icons : []
     };
+	 for(let prop of this.props.parent.properties){
+		 this.state.icons[prop.property]=this.iconHasent;
+	 }
  }  
- handleClick(e) {
-	 e.preventDefault();
-    this.props.parent.order(this.props.property);
+ handleClick(property) {
+    this.props.parent.order(property);
     let icon = this.iconHasent;
-    if(this.props.parent.has(this.props.property,'ASC')){
+    if(this.props.parent.has(property,'ASC')){
     	icon = this.iconHasAsc;
-    }else if(this.props.parent.has(this.props.property,'DESC')){
+    }else if(this.props.parent.has(property,'DESC')){
    		 icon =	this.iconHasDesc;
     }
-	this.setState({icon:icon});
+    let state = this.state;
+    state.icons[property]=icon;
+	this.setState(state);
+ }
+ createHeaders (){
+	 let content =[];
+	 let has = this.props.parent.has;
+	 for(let prop of this.props.parent.properties){
+		 content.push(<th onClick={()=>this.handleClick(prop.property)}>{prop.label}{this.state.icons[prop.property]}</th>);
+	 }
+	 return content;
  }
  
  render() {
-   
-	let has = this.props.parent.has;
-	let prop = this.props.property;
     return (
-      <th onClick={this.handleClick}>
-		  {this.props.header} 
-		  {this.state.icon}
-	  </th>
+   		this.createHeaders()
     );
   }
 }
@@ -109,13 +116,19 @@ class App extends Component {
 			  },
 			  page:{}
 	  } 
+	  this.first = this.first.bind(this);
+	  this.previous = this.previous.bind(this);
+	  this.next = this.next.bind(this);
+	  this.last = this.last.bind(this);
+	  this.getGrid = this.getGrid.bind(this);
+	  
 	  this.getGrid();
   }
    getGrid (doKeepPage){
-		if(!(doKeepPage)){
-			this.grid.object.page=0;
+		console.log(this.grid)
+	   if(!(doKeepPage)){
+			this.grid.page=0;
 		}
-		this.grid.object.page=0;
 		if(this.grid.object.id<0||this.grid.object.id=="")this.grid.object.id=undefined;
 		if(this.grid.object.titulo==="")this.grid.object.titulo=undefined;
 		if(this.grid.object.descricao==="")this.grid.object.descricao=undefined;
@@ -130,7 +143,6 @@ class App extends Component {
         	return response.json();
         }).then((json)=>{
            	this.page = json;
-        	console.log(this.page);
         	this.setState({grid:this.grid,page:this.page});
         });
 	    
@@ -213,18 +225,18 @@ class App extends Component {
     				<tr>
     					<td colspan="5">
     						<span>
-    							<span ng-click="first()" class="material-icons" >first_page</span>
-    							<span ng-click="previous()" class="material-icons">chevron_left</span>
+    							<span onClick={this.first} class="material-icons" >first_page</span>
+    							<span onClick={this.previous} class="material-icons">chevron_left</span>
     							<span>{this.page.number+1} de {this.page.totalPages}</span>
-    							<span ng-click="next()" class="material-icons">chevron_right</span>
-    							<span ng-click="last()" class="material-icons">last_page</span>
+    							<span onClick={this.next} class="material-icons">chevron_right</span>
+    							<span onClick={this.last} class="material-icons">last_page</span>
     						</span>
     						<span>
-    							<select ng-model='param.table.resultsPerPage' ng-change="getGrid()">
-    								<option ng-value="10">10</option>
-    								<option ng-value="15">15</option>
-    								<option ng-value="20">20</option>
-    								<option ng-value="25">25</option>							
+    							<select value={this.grid.perPage} onChange={this.getGrid}>
+    								<option value="10">10</option>
+    								<option value="15">15</option>
+    								<option value="20">20</option>
+    								<option value="25">25</option>							
     							</select>
     						</span>
     					</td>
