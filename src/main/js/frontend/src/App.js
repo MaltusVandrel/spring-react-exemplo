@@ -121,7 +121,7 @@ class App extends Component {
 	  this.next = this.next.bind(this);
 	  this.last = this.last.bind(this);
 	  this.getGrid = this.getGrid.bind(this);
-	  
+	  this.changePerPage = this.changePerPage.bind(this);
 	  this.getGrid();
   }
    getGrid (doKeepPage){
@@ -147,7 +147,7 @@ class App extends Component {
         });
 	    
 	}
-	order=function(property){
+	order (property){
 		for(let x in this.grid.sort.orders){
 			if(this.grid.sort.orders[x].property===property){
 				if(this.grid.sort.orders[x].direction==='ASC'){
@@ -165,7 +165,7 @@ class App extends Component {
 		this.getGrid(true);
 	};
 
-	has=function(property,direction){
+	has (property,direction){
 		if(this){
 			for(let x in this.grid.sort.orders){
 				if(this.grid.sort.orders[x].property===property){
@@ -183,22 +183,25 @@ class App extends Component {
 		}
 	}
 
-	first=function(){
+	first (){
 		this.getGrid();				
 	}
-	previous=function(){
+	previous (){
 		if(this.grid.page>0)this.grid.page--;
 		this.getGrid(true);		
 	}
-	next=function(){
+	next (){
 		if(this.grid.page<(this.page.totalPages-1))this.grid.page++;
 		this.getGrid(true);		
 	}
-	last=function(){
+	last (){
 		this.grid.page=(this.page.totalPages-1);
 		this.getGrid(true);		
 	}
-  
+	changePerPage(e){
+		this.grid.perPage = e.target.value;
+		this.getGrid();
+	}
 	
   
   render() {
@@ -232,7 +235,7 @@ class App extends Component {
     							<span onClick={this.last} class="material-icons">last_page</span>
     						</span>
     						<span>
-    							<select value={this.grid.perPage} onChange={this.getGrid}>
+    							<select value={this.grid.perPage} onChange={this.changePerPage}>
     								<option value="10">10</option>
     								<option value="15">15</option>
     								<option value="20">20</option>
