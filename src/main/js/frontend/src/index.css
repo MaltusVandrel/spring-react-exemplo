@@ -3,3 +3,21 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+th{ position: relative;}
+input{
+	color:#eee;
+}
+input~label{
+	pointer-events: none;
+	position:absolute;
+	left: 0;
+	bottom:0;
+	transition: font-size 0.3s,bottom 0.3s;
+}
+input:focus~label,input:active~label, input:valid~label {
+   font-size:11px;
+   bottom:23px;
+}
+input:not(:valid):not(:focus),input:not(:valid):not(:active) {
+    color:transparent;
+}

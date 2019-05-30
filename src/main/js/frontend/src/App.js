@@ -3,16 +3,14 @@ import logo from "./logo.svg";
 import "./App.css";
 
 
-
-
-				
 class TableHeader extends React.Component {
-iconHasAsc = <span class="material-icons">keyboard_arrow_down</span>; 
-iconHasDesc = <span class="material-icons">keyboard_arrow_up</span>; 
-iconHasent = <span class="material-icons">unfold_more</span>; 
+iconHasAsc = 'keyboard_arrow_down'; 
+iconHasDesc = 'keyboard_arrow_up'; 
+iconHasent = 'unfold_more'; 
 constructor(props) {
 	super(props);
-	 this.handleClick = this.handleClick.bind(this);
+	 this.handleClickOrder = this.handleClickOrder.bind(this);
+	 this.handleChangeInput = this.handleChangeInput.bind(this);
 	 this.createHeaders = this.createHeaders.bind(this);
 	 this.state = {
       icons : []
@@ -21,7 +19,7 @@ constructor(props) {
 		 this.state.icons[prop.property]=this.iconHasent;
 	 }
  }  
- handleClick(property) {
+handleClickOrder(property) {
     this.props.parent.order(property);
     let icon = this.iconHasent;
     if(this.props.parent.has(property,'ASC')){
@@ -33,11 +31,20 @@ constructor(props) {
     state.icons[property]=icon;
 	this.setState(state);
  }
+ handleChangeInput(e,property) {
+	this.props.parent.grid.object[property] = e.target.value;
+	this.props.parent.getGrid();
+ }
  createHeaders (){
 	 let content =[];
 	 let has = this.props.parent.has;
 	 for(let prop of this.props.parent.properties){
-		 content.push(<th onClick={()=>this.handleClick(prop.property)}>{prop.label}{this.state.icons[prop.property]}</th>);
+		 content.push(<th>
+		 				
+		 				<input id={prop.property} type={prop.type} onChange={(e)=>this.handleChangeInput(e,prop.property)} required/>
+		 				<label for={prop.property}>{prop.label}</label> 
+		 				<span onClick={()=>this.handleClickOrder(prop.property)} class="material-icons pointer">{this.state.icons[prop.property]}</span>
+		 			</th>);
 	 }
 	 return content;
  }
@@ -88,17 +95,24 @@ class TableBody extends Component {
 	    return 	(this.createRows());
 	}
 }
-class App extends Component {
+
+class ReactTable extends Component {
   rows = [];
+  componentDidMount() {
+	    this.props.onRef(this)
+  }
+  componentWillUnmount() {
+    this.props.onRef(undefined)
+  }
   constructor(props){
 	  super(props);
 	  this.properties = [
-		  {property:'id',label:'ID'},
-		  {property:'titulo',label:'Titulo'},
-		  {property:'descricao',label:'Descricao'},
-		  {property:'abertura',label:'Abertura'},
-		  {property:'fechamento',label:'Fechamento'},
-		  {property:'situacao',label:'Situacao'},
+		  {property:'id',label:'ID', type:'number'},
+		  {property:'titulo',label:'Titulo', type:'text'},
+		  {property:'descricao',label:'Descricao', type:'text'},
+		  {property:'abertura',label:'Abertura',type:'date'},
+		  {property:'fechamento',label:'Fechamento',type:'date'},
+		  {property:'situacao',label:'Situacao',type:'text'},
 	  ]
 	  this.grid={
 			perPage:20,
@@ -210,14 +224,6 @@ class App extends Component {
     		<table>
     			<thead>
     				<tr>
-    					<th><input type='number' placeholder='ID' /></th>
-    					<th><input type='text' placeholder='Titulo'/></th>
-    					<th><input type='text' placeholder='Descricao'/></th>
-    					<th><input type='text' placeholder='Abertura'/></th>
-    					<th><input type='text' placeholder='Fechamento'/></th>
-    					<th><input type='text' placeholder='Situacao'/></th>
-    				</tr>
-    				<tr>
 	    				<TableHeader parent={this} />
     				</tr>
     			</thead>
@@ -249,5 +255,12 @@ class App extends Component {
     );
   }
 }
-
+class App extends Component {
+	render() {
+	    return (
+	    		<ReactTable parent={this} onRef={ref => (this.table = ref)} />
+	    		)
+	}
+	
+}
 export default App;
