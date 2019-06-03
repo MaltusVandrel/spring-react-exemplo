@@ -8,10 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.msitec.teste.react.ajax.Grid;
@@ -36,12 +35,11 @@ public class IndexController {
     	return tarefaDAO.findAll(example, pageRequest);
     }
     
-    @GetMapping("/add")
+    @PostMapping("/tarefa")
+    @PutMapping("/tarefa")
     @ResponseBody
-    public Tarefa add() {
-    	Tarefa tarefa = new Tarefa("Uma tarefa variavel","Essa tarefa serve mais para testar, em pouco tempo será necessario fazer o CRUD.");
+    public Tarefa salvarTarefa(@RequestBody Tarefa tarefa) {
     	tarefaDAO.save(tarefa);
     	return tarefa;
     }
-
 }

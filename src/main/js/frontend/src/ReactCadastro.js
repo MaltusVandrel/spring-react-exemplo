@@ -66,6 +66,7 @@ class ReactCadastro extends Component {
 	        	return response.json();
 	        }).then((json)=>{
 	        	this.clearState();
+	        	this.props.parent.getGrid();
 	        });
 		    
 		
@@ -98,10 +99,6 @@ class ReactCadastro extends Component {
 		 }
 		 return content;
 	 }
-  
-  
-  
-	
   
   render() {
 	
