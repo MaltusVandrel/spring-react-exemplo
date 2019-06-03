@@ -2,22 +2,55 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  box-sizing:border-box;
 }
-th{ position: relative;}
-input{
-	color:#eee;
+.pointer{
+	cursor: pointer;
 }
-input~label{
+th{ 
+	position: relative;
+}
+th>div{
+	min-width: 80px;
+    max-width: calc(100% - 24px);
+    width: 100%;
+    display: inline-block;
+    height: 24px;
+}
+th>.material-icons{
+    top: 5px;
+    position: relative;
+}
+th input,
+th select{
+	color:#111;
+	width: 100%;
+	border: 0;
+    padding-inline-start: 1px;
+    border-bottom: 2px solid #000;
+    border-style: outset;
+    height: 24px !important;
+    padding: 0px;
+}
+th input~label,
+th select~label{
 	pointer-events: none;
 	position:absolute;
 	left: 0;
 	bottom:0;
 	transition: font-size 0.3s,bottom 0.3s;
 }
-input:focus~label,input:active~label, input:valid~label {
+th input:focus~label,
+th input:active~label,
+th input:valid~label,
+th select:focus~label,
+th select:active~label,
+th select:valid~label {
    font-size:11px;
    bottom:23px;
 }
-input:not(:valid):not(:focus),input:not(:valid):not(:active) {
+th input:not(:valid):not(:focus),
+th input:not(:valid):not(:active){
     color:transparent;
 }
+
