@@ -66,7 +66,7 @@ class ReactCadastro extends Component {
 	        	return response.json();
 	        }).then((json)=>{
 	        	this.clearState();
-	        	this.props.parent.getGrid();
+	        	this.props.parent.table.getGrid();
 	        });
 		    
 		
@@ -81,9 +81,9 @@ class ReactCadastro extends Component {
 	 }
 	 createInput(prop){
 		 if(prop.type==='select'){
-			 return <select id={prop.property} onChange={(e)=>this.handleChangeInput(e,prop.property)}  required>{this.createOptions(prop.options)}</select>;	
+			 return <select id={prop.property} onChange={(e)=>this.handleChangeInput(e,prop.property)} value={this.state[prop.property]} required>{this.createOptions(prop.options)}</select>;	
 		 }else{
-			 return <input id={prop.property} type={prop.type} onChange={(e)=>this.handleChangeInput(e,prop.property)}  required/>;		
+			 return <input id={prop.property} type={prop.type} onChange={(e)=>this.handleChangeInput(e,prop.property)} value={this.state[prop.property]}  required/>;		
 		 }
 	 }
 	 
